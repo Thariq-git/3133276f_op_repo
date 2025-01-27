@@ -1,0 +1,81 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+
+    options {
+        buildDiscarder logRotator(daysToKeepStr: '15', numToKeepStr: '10')
+    }
+
+    stages {
+        // Stage 1: Checkout Code
+        stage('Checkout Code') {
+            steps {
+                echo 'Checking out code from GitHub repository...'
+                git branch: 'main', url: 'https://github.com/youraccount/3133276f_op_repo.git'
+                echo 'Code checkout completed.'
+            }
+        }
+
+        // Stage 2: Build Environment
+        stage('Build Environment') {
+            steps {
+                echo 'Setting up build environment...'
+                sh 'echo Build Environment Ready'
+            }
+        }
+
+        // Stage 3: Deploy to UAT
+        stage('Deploy to UAT') {
+            steps {
+                echo 'Deploying index.html to UAT container...'
+                sh """
+                docker cp 3133276f_index.html svr-uatsvr:/var/www/html/index.html
+                """
+                echo 'Deployment to UAT completed.'
+            }
+        }
+
+        // Stage 4: Validate UAT
+        stage('Validate UAT') {
+            steps {
+                echo 'Validating UAT server response...'
+                sh """
+                curl -Is http://svr-uatsvr.localdomain | head -n 1 > /tmp/uat-result-file
+                cat /tmp/uat-result-file
+                """
+                echo 'Validation of UAT server completed.'
+            }
+        }
+
+        // Stage 5: Deploy to PROD
+        stage('Deploy to PROD') {
+            steps {
+                echo 'Deploying index.html to PROD container...'
+                sh """
+                docker cp 3133276f_index.html svr-prodsvr:/var/www/html/index.html
+                """
+                echo 'Deployment to PROD completed.'
+            }
+        }
+
+        // Stage 6: Validate PROD
+        stage('Validate PROD') {
+            steps {
+                echo 'Validating PROD server response...'
+                sh """
+                curl -Is http://svr-prodsvr.localdomain | head -n 1 > /tmp/prod-result-file
+                cat /tmp/prod-result-file
+                """
+                echo 'Validation of PROD server completed.'
+            }
+        }
+
+        // Stage 7: Finalize
+        stage('Finalize') {
+            steps {
+                echo 'Pipeline execution completed successfully.'
+            }
+        }
+    }
+}
