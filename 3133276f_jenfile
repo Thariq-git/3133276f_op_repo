@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out code from GitHub repository...'
-                git branch: 'main', url: 'https://github.com/youraccount/3133276f_op_repo.git'
+                git branch: 'main', url: 'https://github.com/Thariq-git/3133276f_op_repo.git'
                 echo 'Code checkout completed.'
             }
         }
