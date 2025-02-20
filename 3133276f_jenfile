@@ -22,10 +22,10 @@ pipeline {
                     '''
                     
                     sh '''
-                        sudo cp /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html/index.html;
-                        sudo chown www-data:www-data /var/www/html/index.html;
-                        sudo chmod 644 /var/www/html/index.html;
-                        sudo systemctl restart apache2;
+                        sudo -n cp /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html/index.html;
+                        sudo -n chown www-data:www-data /var/www/html/index.html;
+                        sudo -n chmod 644 /var/www/html/index.html;
+                        sudo -n systemctl restart apache2;
                     '''
                     
                     echo "3133276f_OP_S1: UAT web server is backed up, updated, and deployed"
@@ -79,10 +79,10 @@ pipeline {
                     '''
                     
                     sh '''
-                        sudo cp /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html/index.html;
-                        sudo chown www-data:www-data /var/www/html/index.html;
-                        sudo chmod 644 /var/www/html/index.html;
-                        sudo systemctl restart apache2;
+                        sudo -n cp /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html/index.html;
+                        sudo -n chown www-data:www-data /var/www/html/index.html;
+                        sudo -n chmod 644 /var/www/html/index.html;
+                        sudo -n systemctl restart apache2;
                     '''
                     
                     echo "3133276f_OP_S6: Prod web server is backed up, updated, and deployed"
