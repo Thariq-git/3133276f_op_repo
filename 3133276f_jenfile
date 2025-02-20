@@ -12,8 +12,6 @@ pipeline {
                     sh 'docker commit 3133276f_uatsvr 3133276f_uatsvr_image'
 
                     sh '''
-                        puppet resource file /tmp/3133276f ensure=absent force=true;
-                        puppet resource file /tmp/3133276f ensure=directory;
                         cd /tmp/3133276f;
                         git clone https://github.com/Thariq-git/3133276f_op_repo.git;
                         targets=3133276f_uatsvr.localdomain;
