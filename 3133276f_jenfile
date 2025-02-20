@@ -18,7 +18,7 @@ pipeline {
                         git clone https://github.com/Thariq-git/3133276f_op_repo.git;
                         targets=3133276f_uatsvr.localdomain;
                         locate_script='/tmp/3133276f/3133276f_op_repo/3133276f_script';
-                        bolt script run $locate_script -t $targets -u clientadm -p 3133276f --no-host-key-check --run-as root;
+                        bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
                     '''
                     echo "3133276f_OP_S1: UAT web server is backed up and updated"
                 }
@@ -79,7 +79,7 @@ pipeline {
                         git clone https://github.com/Thariq-git/3133276f_op_repo.git;
                         targets=3133276f_prodsvr.localdomain;
                         locate_script='/tmp/3133276f/3133276f_op_repo/3133276f_script';
-                        bolt script run $locate_script -t $targets -u clientadm -p 3133276f --no-host-key-check --run-as root;
+                        bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
                     '''
                     echo "3133276f_OP_S6: Prod web server is backed up and updated"
                 }
