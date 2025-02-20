@@ -11,4 +11,4 @@ puppet resource file /tmp/3133276f/research ensure=directory
 
 cd /tmp/3133276f/research/
 git clone https://github.com/Thariq-git/3133276f_op_repo.git
-cp -p /tmp/3133276f/research/3133276f_index.html /var/www/html/index.html
+cp -p /tmp/3133276f/research/3133276f_op_repo/3133276f_index.html /var/www/html/index.html
