@@ -18,14 +18,14 @@ Required Files:
 3. 3133276f_script: Puppet script for server setup and deployment.
 
 Setup Steps:
-1. Clone the repository: git clone https://github.com/youraccount/3133276f_op_repo.git
+1. Clone the repository: git clone https://github.com/Thariq-git/3133276f_op_repo.git
 2. Set up UAT and PROD Docker containers.
 3. Configure Jenkins with the Jenkinsfile.
 4. Run the pipeline and monitor each stage.
 
 Validation Commands:
-- UAT: curl -Is http://svr-uatsvr.localdomain | head -n 1
-- PROD: curl -Is http://svr-prodsvr.localdomain | head -n 1
+- UAT: curl -Is http://192.168.120.130:32500 | head -n 1
+- PROD: curl -Is http://192.168.120.140:32600 | head -n 1
 
 Expected Output: HTTP/1.1 200 OK
 
