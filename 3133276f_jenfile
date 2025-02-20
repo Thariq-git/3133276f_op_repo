@@ -22,7 +22,7 @@ pipeline {
                     '''
                     
                     sh '''
-                        sudo -n cp -p /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html;
+                        sudo -n cp -p /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html/index.html;
                         sudo -n chown www-data:www-data /var/www/html/index.html;
                         sudo -n chmod 644 /var/www/html/index.html;
                         sudo -n systemctl restart apache2;
@@ -53,6 +53,18 @@ pipeline {
             }
         }
         
+        stage('3133276f-OP-S3') {
+            steps {
+                input('3133276f_OP_S3: Proceed with stress test on UAT web server?')
+            }
+        }
+        
+        stage('3133276f-OP-S4') {
+            steps {
+                echo "3133276f_OP_S4: Stress test result is good"
+            }
+        }
+        
         stage('3133276f-OP-S5') {
             steps {
                 input('3133276f_OP_S5: Deploy new update to prod web server?')
@@ -79,13 +91,45 @@ pipeline {
                     '''
                     
                     sh '''
-                        sudo -n cp -p /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html;
+                        sudo -n cp -p /tmp/3133276f/3133276f_op_repo/3133276f_index.html /var/www/html/index.html;
                         sudo -n chown www-data:www-data /var/www/html/index.html;
                         sudo -n chmod 644 /var/www/html/index.html;
                         sudo -n systemctl restart apache2;
                     '''
                     
                     echo "3133276f_OP_S6: Prod web server is backed up, updated, and deployed"
+                }
+            }
+        }
+        
+        stage('3133276f-OP-S7') {
+            steps {
+                script {
+                    def prodsvrPort = "32600"
+                    def resultFile = "/tmp/prodsvr-result-file"
+                    
+                    echo "Executing web test for PROD server..."
+                    sh "curl -Is http://localhost:${prodsvrPort} | head -n 1 > ${resultFile}"
+                    def result = sh(script: "cat ${resultFile}", returnStdout: true).trim()
+                    
+                    if (result.contains("HTTP/1.1 200 OK")) {
+                        echo "3133276f_OP_S7: Production website is operational"
+                    } else {
+                        echo "3133276f_OP_S7: Production website failed!"
+                        
+                        def v2 = input(
+                            message: 'Action',
+                            parameters: [
+                                choice(name: 'Action', choices: ['Trigger roll back', 'Troubleshooting'])
+                            ]
+                        )
+                        
+                        if (v2 == "Trigger roll back") {
+                            echo "3133276f_OP_S7: Production website is rolling back"
+                        } else {
+                            echo "3133276f_OP_S7: Troubleshooting of Production website is in progress"
+                        }
+                    }
                 }
             }
         }
