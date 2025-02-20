@@ -35,3 +35,13 @@ pipeline {
         stage('3133276f-opr-s6') {
             steps {
                 echo 'Executing Stage 6...'
+}
+        }
+
+        stage('3133276f-opr-s7') {
+            steps {
+                echo 'Executing Stage 7...'
+            }
+        }
+    }
+}
